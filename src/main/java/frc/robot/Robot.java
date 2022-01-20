@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 
     Layer = new layer();
     DriveTrain = new tankdrive(Layer);
-    x_controller = new xbox(0);
+    x_controller = new xbox(0, Layer);
     
     
   }
@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    
+    Layer.DisplayVar();
   }
 
   /**
@@ -98,11 +98,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     //motor.set(0.1);
-
-    Layer.forward_drive_speed = x_controller.my_controller.getRightX();
-    Layer.turning_drive_speed = -x_controller.my_controller.getLeftY();
-
-    Layer.DisplayVar();
+    x_controller.OutputIntoLayer();
     DriveTrain.drive();
     
 
