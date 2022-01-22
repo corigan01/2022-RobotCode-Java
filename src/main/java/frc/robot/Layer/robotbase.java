@@ -26,6 +26,7 @@ public class robotbase {
 
     public static MotorControllerGroup left = new MotorControllerGroup(leftFront, leftBack);
     public static MotorControllerGroup right = new MotorControllerGroup(rightFront, rightBack);
-    //public static WPI_TalonFX intake = new WPI_TalonFX(5);
-    //public static WPI_TalonFX shooter = new WPI_TalonFX(6);
+    
+    public static WPI_TalonFX intake = new WPI_TalonFX(15);
+    public static WPI_TalonFX shooter = new WPI_TalonFX(5);
 }

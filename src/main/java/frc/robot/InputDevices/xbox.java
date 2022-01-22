@@ -14,6 +14,8 @@ public class xbox {
     public void OutputIntoLayer() {
         my_layer.forward_drive_speed = my_controller.getRightX();
         my_layer.turning_drive_speed = -my_controller.getLeftY();
+
+        my_layer.shoot = my_controller.getAButton();
     }
     
 }

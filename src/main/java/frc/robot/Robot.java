@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Layer.layer;
 import frc.robot.Layer.robotbase;
+import frc.robot.Layer.layer.mode;
 import frc.robot.DriveTrain.*;
 import frc.robot.InputDevices.*;
+import frc.robot.Mec.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,6 +29,7 @@ public class Robot extends TimedRobot {
   public layer Layer;
   public tankdrive DriveTrain;
   public xbox x_controller;
+  public shooter b_shooter;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -41,7 +44,7 @@ public class Robot extends TimedRobot {
     Layer = new layer();
     DriveTrain = new tankdrive(Layer);
     x_controller = new xbox(0, Layer);
-    
+    b_shooter =  new shooter(Layer);
     
   }
 
@@ -72,6 +75,8 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    Layer.SetRobotMode(mode.TELEOP /*auto*/);
   }
 
   /** This function is called periodically during autonomous. */
@@ -91,7 +96,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    
+    Layer.SetRobotMode(mode.TELEOP /*teleop*/);
   }
 
   /** This function is called periodically during operator control. */
@@ -100,6 +105,7 @@ public class Robot extends TimedRobot {
     //motor.set(0.1);
     x_controller.OutputIntoLayer();
     DriveTrain.drive();
+    b_shooter.drive();
     
 
   }
@@ -107,20 +113,20 @@ public class Robot extends TimedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-
+    Layer.resetALL();
+    Layer.SetRobotMode(mode.DISABLED /*disabled*/);
   }
 
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {
-    Layer.forward_drive_speed = 0;
-    Layer.turning_drive_speed = 0;
+    Layer.ProtectUser();
   }
 
   /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {
-
+    Layer.SetRobotMode(mode.TEST /*test*/);
   }
 
   /** This function is called periodically during test mode. */
